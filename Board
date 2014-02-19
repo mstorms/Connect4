@@ -1,0 +1,429 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+
+/**
+ * Class that creates game board
+ */
+public class Board extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
+	private static JPanel[] panels;
+	private static String[] vals;
+	
+	/**
+	 * Board constructor
+	 */
+	public Board() {
+		this.setPreferredSize(new Dimension(391, 470));
+		this.setLayout(new GridLayout(6, 5, 0, 0));
+		panels = new JPanel[30];
+		vals = new String[30];
+		setBoard();
+		this.setVisible(true);
+	}
+	
+	/**
+	 * Setup method for board
+	 */
+	private void setBoard() {
+		for (int i = 0; i < 5; i++) {
+			setPanels(i);
+		}
+		for (int j = 0; j < 30; j++) {
+			// This eliminates any gap that may appear between panels
+			panels[j].setLayout(new GridLayout(1, 0));
+			this.add(panels[j]);
+			vals[j] = " ";
+		}
+	}
+	
+	/**
+	 * Method that refreshes board
+	 */
+	public static void refreshBoard() {
+		for (int i = 0; i < 30; i++) {
+			panels[i].removeAll();
+			vals[i] = " ";
+			if (i > 4) {
+				panels[i].add(new JLabel(new ImageIcon("images/empty.png")));
+				panels[i].revalidate();
+			}
+		}
+	}
+	
+	/**
+	 * Method that restricts further game play once game has ended
+	 */
+	public static void killBoard() {
+		for (int i = 0; i < 30; i++) {
+			vals[i] = "x";
+		}
+	}
+	
+	/**
+	 * Method that creates the inner panels
+	 */
+	private void setPanels(int i) {
+		int k = i;
+		for (int j = i; j < 30; j = j + 5) {
+			panels[j] = new JPanel();
+			if (k == 0) {
+				if (j < 5) {
+					panels[j].addMouseListener(new C1Listener());
+				}
+				else {
+					panels[j].add(new JLabel(new ImageIcon("images/empty.png")));
+					panels[j].addMouseListener(new C1Listener());
+					panels[j].setBorder(BorderFactory.createLineBorder(new Color(249, 207, 0), 2));
+				}
+			}
+			if (k == 1) {
+				if (j < 5) {
+					panels[j].addMouseListener(new C2Listener());
+				}
+				else {
+					panels[j].add(new JLabel(new ImageIcon("images/empty.png")));
+					panels[j].addMouseListener(new C2Listener());
+					panels[j].setBorder(BorderFactory.createLineBorder(new Color(249, 207, 0), 2));
+				}
+			}
+			if (k == 2) {
+				if (j < 5) {
+					panels[j].addMouseListener(new C3Listener());
+				}
+				else {
+					panels[j].add(new JLabel(new ImageIcon("images/empty.png")));
+					panels[j].addMouseListener(new C3Listener());
+					panels[j].setBorder(BorderFactory.createLineBorder(new Color(249, 207, 0), 2));
+				}
+			}
+			if (k == 3) {
+				if (j < 5) {
+					panels[j].addMouseListener(new C4Listener());
+				}
+				else {
+					panels[j].add(new JLabel(new ImageIcon("images/empty.png")));
+					panels[j].addMouseListener(new C4Listener());
+					panels[j].setBorder(BorderFactory.createLineBorder(new Color(249, 207, 0), 2));
+				}
+			}
+			if (k == 4) {
+				if (j < 5) {
+					panels[j].addMouseListener(new C5Listener());
+				}
+				else {
+					panels[j].add(new JLabel(new ImageIcon("images/empty.png")));
+					panels[j].addMouseListener(new C5Listener());
+					panels[j].setBorder(BorderFactory.createLineBorder(new Color(249, 207, 0), 2));
+				}
+			}
+			panels[j].setVisible(true);
+		}
+	}
+	
+	/**
+	 * Inner listener class for first column
+	 */
+	class C1Listener extends MouseAdapter {
+		
+		/**
+		 * Hovers appropriate piece above game board
+		 */
+		public void mouseEntered(MouseEvent e) {
+			if (Player.getTurn().equals("r")) {
+	    		panels[0].removeAll();
+	    		panels[0].add(new JLabel(new ImageIcon("images/red.png")));
+	    		revalidate();
+	    	}
+	    	else {
+	    		panels[0].removeAll();
+	    		panels[0].add(new JLabel(new ImageIcon("images/blue.png")));
+	    		revalidate();
+	    	}
+		}
+		
+		/**
+		 * Removes hovering piece upon mouse exit
+		 */
+		public void mouseExited(MouseEvent e) {
+	    	panels[0].removeAll();
+	    	panels[0].add(new JLabel(new ImageIcon("images/blank.png")));
+    		revalidate();
+		}
+		
+		/**
+		 * Drops appropriate piece into column
+		 */
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 25; i > 4; i = i - 5) {
+				if (vals[i].equals(" ")) {
+					vals[i] = Player.getTurn();
+					panels[i].removeAll();
+					panels[0].removeAll();
+					if (vals[i].equals("r")) {
+						panels[i].add(new JLabel(new ImageIcon("images/redP.png")));
+						panels[0].add(new JLabel(new ImageIcon("images/blue.png")));
+					}
+					else {
+						panels[i].add(new JLabel(new ImageIcon("images/blueP.png")));
+						panels[0].add(new JLabel(new ImageIcon("images/red.png")));
+					}
+					revalidate();
+					Connect4.check(vals);
+					Player.nextTurn();
+					break;
+				}
+				else {
+					// Do nothing if no space is available
+				}
+			}
+		}
+	}
+
+	/**
+	 * Inner listener class for second column
+	 */
+	class C2Listener extends MouseAdapter {
+		
+		/**
+		 * Hovers appropriate piece above game board
+		 */
+		public void mouseEntered(MouseEvent e) {
+			if (Player.getTurn().equals("r")) {
+	    		panels[1].removeAll();
+	    		panels[1].add(new JLabel(new ImageIcon("images/red.png")));
+	    		revalidate();
+	    	}
+	    	else {
+	    		panels[1].removeAll();
+	    		panels[1].add(new JLabel(new ImageIcon("images/blue.png")));
+	    		revalidate();
+	    	}
+		}
+		
+		/**
+		 * Removes hovering piece upon mouse exit
+		 */
+		public void mouseExited(MouseEvent e) {
+	    	panels[1].removeAll();
+	    	panels[1].add(new JLabel(new ImageIcon("images/blank.png")));
+    		revalidate();
+		}
+		
+		/**
+		 * Drops appropriate piece into column
+		 */
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 26; i > 4; i = i - 5) {
+				if (vals[i].equals(" ")) {
+					vals[i] = Player.getTurn();
+					panels[i].removeAll();
+					panels[1].removeAll();
+					if (vals[i].equals("r")) {
+						panels[i].add(new JLabel(new ImageIcon("images/redP.png")));
+						panels[1].add(new JLabel(new ImageIcon("images/blue.png")));
+					}
+					else {
+						panels[i].add(new JLabel(new ImageIcon("images/blueP.png")));
+						panels[1].add(new JLabel(new ImageIcon("images/red.png")));
+					}
+					revalidate();
+					Connect4.check(vals);
+					Player.nextTurn();
+					break;
+				}
+				else {
+					// Do nothing if no space is available
+				}
+			}
+		}
+	}
+
+	/**
+	 * Inner listener class for third column
+	 */
+	class C3Listener extends MouseAdapter {
+		
+		/**
+		 * Hovers appropriate piece above game board
+		 */
+		public void mouseEntered(MouseEvent e) {
+			if (Player.getTurn().equals("r")) {
+	    		panels[2].removeAll();
+	    		panels[2].add(new JLabel(new ImageIcon("images/red.png")));
+	    		revalidate();
+	    	}
+	    	else {
+	    		panels[2].removeAll();
+	    		panels[2].add(new JLabel(new ImageIcon("images/blue.png")));
+	    		revalidate();
+	    	}
+		}
+		
+		/**
+		 * Removes hovering piece upon mouse exit
+		 */
+		public void mouseExited(MouseEvent e) {
+	    	panels[2].removeAll();
+	    	panels[2].add(new JLabel(new ImageIcon("images/blank.png")));
+    		revalidate();
+		}
+		
+		/**
+		 * Drops appropriate piece into column
+		 */
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 27; i > 4; i = i - 5) {
+				if (vals[i].equals(" ")) {
+					vals[i] = Player.getTurn();
+					panels[i].removeAll();
+					panels[2].removeAll();
+					if (vals[i].equals("r")) {
+						panels[i].add(new JLabel(new ImageIcon("images/redP.png")));
+						panels[2].add(new JLabel(new ImageIcon("images/blue.png")));
+					}
+					else {
+						panels[i].add(new JLabel(new ImageIcon("images/blueP.png")));
+						panels[2].add(new JLabel(new ImageIcon("images/red.png")));
+					}
+					revalidate();
+					Connect4.check(vals);
+					Player.nextTurn();
+					break;
+				}
+				else {
+					// Do nothing if no space is available
+				}
+			}
+		}
+	}
+
+	/**
+	 * Inner listener class for fourth column
+	 */
+	class C4Listener extends MouseAdapter {
+		
+		/**
+		 * Hovers appropriate piece above game board
+		 */
+		public void mouseEntered(MouseEvent e) {
+			if (Player.getTurn().equals("r")) {
+	    		panels[3].removeAll();
+	    		panels[3].add(new JLabel(new ImageIcon("images/red.png")));
+	    		revalidate();
+	    	}
+	    	else {
+	    		panels[3].removeAll();
+	    		panels[3].add(new JLabel(new ImageIcon("images/blue.png")));
+	    		revalidate();
+	    	}
+		}
+		
+		/**
+		 * Removes hovering piece upon mouse exit
+		 */
+		public void mouseExited(MouseEvent e) {
+	    	panels[3].removeAll();
+	    	panels[3].add(new JLabel(new ImageIcon("images/blank.png")));
+    		revalidate();
+		}
+		
+		/**
+		 * Drops appropriate piece into column
+		 */
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 28; i > 4; i = i - 5) {
+				if (vals[i].equals(" ")) {
+					vals[i] = Player.getTurn();
+					panels[i].removeAll();
+					panels[3].removeAll();
+					if (vals[i].equals("r")) {
+						panels[i].add(new JLabel(new ImageIcon("images/redP.png")));
+						panels[3].add(new JLabel(new ImageIcon("images/blue.png")));
+					}
+					else {
+						panels[i].add(new JLabel(new ImageIcon("images/blueP.png")));
+						panels[3].add(new JLabel(new ImageIcon("images/red.png")));
+					}
+					revalidate();
+					Connect4.check(vals);
+					Player.nextTurn();
+					break;
+				}
+				else {
+					// Do nothing if no space is available
+				}
+			}
+		}
+	}
+
+	/**
+	 * Inner listener class for fifth column
+	 */
+	class C5Listener extends MouseAdapter {
+		
+		/**
+		 * Hovers appropriate piece above game board
+		 */
+		public void mouseEntered(MouseEvent e) {
+			if (Player.getTurn().equals("r")) {
+	    		panels[4].removeAll();
+	    		panels[4].add(new JLabel(new ImageIcon("images/red.png")));
+	    		revalidate();
+	    	}
+	    	else {
+	    		panels[4].removeAll();
+	    		panels[4].add(new JLabel(new ImageIcon("images/blue.png")));
+	    		revalidate();
+	    	}
+		}
+		
+		/**
+		 * Removes hovering piece upon mouse exit
+		 */
+		public void mouseExited(MouseEvent e) {
+	    	panels[4].removeAll();
+	    	panels[4].add(new JLabel(new ImageIcon("images/blank.png")));
+    		revalidate();
+		}
+		
+		/**
+		 * Drops appropriate piece into column
+		 */
+		public void mouseClicked(MouseEvent e) {
+			for (int i = 29; i > 4; i = i - 5) {
+				if (vals[i].equals(" ")) {
+					vals[i] = Player.getTurn();
+					panels[i].removeAll();
+					panels[4].removeAll();
+					if (vals[i].equals("r")) {
+						panels[i].add(new JLabel(new ImageIcon("images/redP.png")));
+						panels[4].add(new JLabel(new ImageIcon("images/blue.png")));
+					}
+					else {
+						panels[i].add(new JLabel(new ImageIcon("images/blueP.png")));
+						panels[4].add(new JLabel(new ImageIcon("images/red.png")));
+					}
+					revalidate();
+					Connect4.check(vals);
+					Player.nextTurn();
+					break;
+				}
+				else {
+					// Do nothing if no space is available
+				}
+			}
+		}
+	}
+}
