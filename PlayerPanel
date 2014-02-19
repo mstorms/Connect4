@@ -1,0 +1,25 @@
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+
+public class PlayerPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Constructor for panel that includes player names and scores
+	 */
+	public PlayerPanel() {
+		this.setLayout(new GridLayout(1, 2));
+		this.setPreferredSize(new Dimension(391, 30));
+		JLabel rLabel = new JLabel(Player.getRName() + " : " + Player.getRScore(), SwingConstants.CENTER);
+		this.add(rLabel);
+		JLabel bLabel = new JLabel(Player.getBName() + " : " + Player.getBScore(), SwingConstants.CENTER);
+		this.add(bLabel);
+		this.setVisible(true);
+	}
+}
