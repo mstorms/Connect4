@@ -1,0 +1,130 @@
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+
+
+/**
+ * Main Connect4 class
+ * @author Matthew Storms
+ * February 2014
+ */
+public class Connect4 {
+
+	private static JFrame f;
+	
+	/**
+	 * Main method
+	 */
+	public static void main(String[] args) {
+		f = new Frame();
+		f.setSize(391, 550);
+		f.setResizable(false);
+		f.setLayout(new BorderLayout());
+		Player.setRName(JOptionPane.showInputDialog("Please enter your name", "Red Player"));
+		Player.setBName(JOptionPane.showInputDialog("Please enter your name", "Blue Player"));
+		Player.resetScore();
+		Player.resetTurn();
+		f.add(new Board(), BorderLayout.SOUTH);
+		f.add(new PlayerPanel(), BorderLayout.NORTH);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+	
+	/**
+	 * Returns frame
+	 */
+	public static JFrame getFrame() {
+		return f;
+	}
+	
+	/**
+	 * Check for win
+	 */
+	public static void check(String[] s){
+		String[] vals = s;
+		if ((vals[5].equals("r") && vals[10].equals("r") && vals[15].equals("r") && vals[20].equals("r")) || 
+				(vals[10].equals("r") && vals[15].equals("r") && vals[20].equals("r") && vals[25].equals("r")) || 
+				(vals[6].equals("r") && vals[11].equals("r") && vals[16].equals("r") && vals[21].equals("r")) || 
+				(vals[11].equals("r") && vals[16].equals("r") && vals[21].equals("r") && vals[26].equals("r")) || 
+				(vals[7].equals("r") && vals[12].equals("r") && vals[17].equals("r") && vals[22].equals("r")) || 
+				(vals[12].equals("r") && vals[17].equals("r") && vals[22].equals("r") && vals[27].equals("r")) || 
+				(vals[8].equals("r") && vals[13].equals("r") && vals[18].equals("r") && vals[23].equals("r")) || 
+				(vals[13].equals("r") && vals[18].equals("r") && vals[23].equals("r") && vals[28].equals("r")) || 
+				(vals[9].equals("r") && vals[14].equals("r") && vals[19].equals("r") && vals[24].equals("r")) || 
+				(vals[14].equals("r") && vals[19].equals("r") && vals[24].equals("r") && vals[29].equals("r")) || 
+				(vals[5].equals("r") && vals[6].equals("r") && vals[7].equals("r") && vals[8].equals("r")) || 
+				(vals[6].equals("r") && vals[7].equals("r") && vals[8].equals("r") && vals[9].equals("r")) || 
+				(vals[10].equals("r") && vals[11].equals("r") && vals[12].equals("r") && vals[13].equals("r")) || 
+				(vals[11].equals("r") && vals[12].equals("r") && vals[13].equals("r") && vals[14].equals("r")) || 
+				(vals[15].equals("r") && vals[16].equals("r") && vals[17].equals("r") && vals[18].equals("r")) || 
+				(vals[16].equals("r") && vals[17].equals("r") && vals[18].equals("r") && vals[19].equals("r")) || 
+				(vals[20].equals("r") && vals[21].equals("r") && vals[22].equals("r") && vals[23].equals("r")) || 
+				(vals[21].equals("r") && vals[22].equals("r") && vals[23].equals("r") && vals[24].equals("r")) || 
+				(vals[25].equals("r") && vals[26].equals("r") && vals[27].equals("r") && vals[28].equals("r")) || 
+				(vals[26].equals("r") && vals[27].equals("r") && vals[28].equals("r") && vals[29].equals("r")) || 
+				(vals[10].equals("r") && vals[16].equals("r") && vals[22].equals("r") && vals[28].equals("r")) || 
+				(vals[5].equals("r") && vals[11].equals("r") && vals[17].equals("r") && vals[23].equals("r")) || 
+				(vals[11].equals("r") && vals[17].equals("r") && vals[23].equals("r") && vals[29].equals("r")) || 
+				(vals[6].equals("r") && vals[12].equals("r") && vals[18].equals("r") && vals[24].equals("r")) ||
+				(vals[8].equals("r") && vals[12].equals("r") && vals[16].equals("r") && vals[20].equals("r")) || 
+				(vals[9].equals("r") && vals[13].equals("r") && vals[17].equals("r") && vals[21].equals("r")) || 
+				(vals[13].equals("r") && vals[17].equals("r") && vals[21].equals("r") && vals[25].equals("r")) || 
+				(vals[14].equals("r") && vals[18].equals("r") && vals[22].equals("r") && vals[26].equals("r"))) {
+					Player.rWins();
+					f.add(new PlayerPanel(), BorderLayout.NORTH);
+					Board.killBoard();
+					JOptionPane.showMessageDialog(null, Player.getRName() + " wins!");
+					Board.refreshBoard();
+				}
+		else if ((vals[5].equals("b") && vals[10].equals("b") && vals[15].equals("b") && vals[20].equals("b")) || 
+				(vals[10].equals("b") && vals[15].equals("b") && vals[20].equals("b") && vals[25].equals("b")) || 
+				(vals[6].equals("b") && vals[11].equals("b") && vals[16].equals("b") && vals[21].equals("b")) || 
+				(vals[11].equals("b") && vals[16].equals("b") && vals[21].equals("b") && vals[26].equals("b")) || 
+				(vals[7].equals("b") && vals[12].equals("b") && vals[17].equals("b") && vals[22].equals("b")) || 
+				(vals[12].equals("b") && vals[17].equals("b") && vals[22].equals("b") && vals[27].equals("b")) || 
+				(vals[8].equals("b") && vals[13].equals("b") && vals[18].equals("b") && vals[23].equals("b")) || 
+				(vals[13].equals("b") && vals[18].equals("b") && vals[23].equals("b") && vals[28].equals("b")) || 
+				(vals[9].equals("b") && vals[14].equals("b") && vals[19].equals("b") && vals[24].equals("b")) || 
+				(vals[14].equals("b") && vals[19].equals("b") && vals[24].equals("b") && vals[29].equals("b")) || 
+				(vals[5].equals("b") && vals[6].equals("b") && vals[7].equals("b") && vals[8].equals("b")) || 
+				(vals[6].equals("b") && vals[7].equals("b") && vals[8].equals("b") && vals[9].equals("b")) || 
+				(vals[10].equals("b") && vals[11].equals("b") && vals[12].equals("b") && vals[13].equals("b")) || 
+				(vals[11].equals("b") && vals[12].equals("b") && vals[13].equals("b") && vals[14].equals("b")) || 
+				(vals[15].equals("b") && vals[16].equals("b") && vals[17].equals("b") && vals[18].equals("b")) || 
+				(vals[16].equals("b") && vals[17].equals("b") && vals[18].equals("b") && vals[19].equals("b")) || 
+				(vals[20].equals("b") && vals[21].equals("b") && vals[22].equals("b") && vals[23].equals("b")) || 
+				(vals[21].equals("b") && vals[22].equals("b") && vals[23].equals("b") && vals[24].equals("b")) || 
+				(vals[25].equals("b") && vals[26].equals("b") && vals[27].equals("b") && vals[28].equals("b")) || 
+				(vals[26].equals("b") && vals[27].equals("b") && vals[28].equals("b") && vals[29].equals("b")) || 
+				(vals[10].equals("b") && vals[16].equals("b") && vals[22].equals("b") && vals[28].equals("b")) || 
+				(vals[5].equals("b") && vals[11].equals("b") && vals[17].equals("b") && vals[23].equals("b")) || 
+				(vals[11].equals("b") && vals[17].equals("b") && vals[23].equals("b") && vals[29].equals("b")) || 
+				(vals[6].equals("b") && vals[12].equals("b") && vals[18].equals("b") && vals[24].equals("b")) ||
+				(vals[8].equals("b") && vals[12].equals("b") && vals[16].equals("b") && vals[20].equals("b")) || 
+				(vals[9].equals("b") && vals[13].equals("b") && vals[17].equals("b") && vals[21].equals("b")) || 
+				(vals[13].equals("b") && vals[17].equals("b") && vals[21].equals("b") && vals[25].equals("b")) || 
+				(vals[14].equals("b") && vals[18].equals("b") && vals[22].equals("b") && vals[26].equals("b"))) {
+					Player.bWins();
+					f.add(new PlayerPanel(), BorderLayout.NORTH);
+					Board.killBoard();
+					JOptionPane.showMessageDialog(null, Player.getBName() + " wins!");
+					Board.refreshBoard();
+		}
+		else {
+			int count = 0;
+			for (int i = 5; i < 30; i++) {
+				String str = vals[i];
+				if ((str.equals("r")) || (str.equals("b"))) {
+					count++;
+				}
+			}
+			if (count == 25) {
+				Board.killBoard();
+				JOptionPane.showMessageDialog(null, "Game tie!");
+				Board.refreshBoard();
+			}
+		}
+	}
+}
