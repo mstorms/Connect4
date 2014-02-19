@@ -1,0 +1,129 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+
+/**
+ * Class that creates the game frame
+ */
+public class Frame extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	
+	private JDesktopPane dpMain;
+	private JMenuBar mb;
+	private JMenu options;
+	private JMenu help;
+	private JMenuItem optNG;
+	private JMenuItem optNT;
+	private JMenuItem optQ;
+	private JMenuItem hInst;
+	
+	/**
+	 * Frame constructor
+	 */
+	public Frame() {
+		super("Connect 4");
+		
+		// Create and add menu
+		mb = new JMenuBar();
+		
+		options = new JMenu("Options");
+		optNG = new JMenuItem("New Game");
+		ActionListener nG = new menuActionListener(0);
+		optNG.addActionListener(nG);
+		options.add(optNG);
+		optNT = new JMenuItem("New Tournament");
+		ActionListener nT = new menuActionListener(1);
+		optNT.addActionListener(nT);
+		options.add(optNT);
+		optQ = new JMenuItem("Quit");
+		ActionListener q = new menuActionListener(2);
+		optQ.addActionListener(q);
+		options.add(optQ);
+		mb.add(options);
+		
+		help = new JMenu("Help");
+		hInst = new JMenuItem("Instructions");
+		ActionListener i = new menuActionListener(3);
+		hInst.addActionListener(i);
+		help.add(hInst);
+		mb.add(help);
+		
+		this.setJMenuBar(mb);
+		
+		dpMain = new JDesktopPane();
+		this.add(dpMain);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Inner listener class for menu
+	 */
+	class menuActionListener implements ActionListener {
+
+		private int selection;
+		
+		public menuActionListener(int s) {
+			selection = s;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			switch (selection) {
+				
+				case 0:
+					// New Game
+					int output = JOptionPane.showConfirmDialog(null, "Would you like to start a new game?", "New game?", 
+							JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					if (output == JOptionPane.YES_OPTION) {
+						Board.refreshBoard();
+						revalidate();
+					}
+					else {}
+					break;
+				
+				case 1:
+					// New Tournament
+					int output1 = JOptionPane.showConfirmDialog(null, "Would you like to start a new tournament?", "New tournament?", 
+							JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					if (output1 == JOptionPane.YES_OPTION) {
+						Connect4.getFrame().setVisible(false);
+						Connect4.main(null);
+					}
+					else {}
+					break;
+				
+				case 2:
+					// Quit
+					int output2 = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "End application?", 
+							JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					if (output2 == JOptionPane.YES_OPTION) {
+						System.exit(0);
+					}
+					else {}
+					break;
+				
+				case 3:
+					// Instructions
+					JOptionPane.showMessageDialog(null, "On your turn (indicated by gamepiece), click on a column " + 
+							"to drop the piece into it. \nFirst player to reach 4-in-a-row wins! Restart a game " + 
+							"with New Game in the Options \nmenu. Restart a tournament (resetting board and scores) with " + 
+							"New Tournament in the \nOptions menu. Quit the application with Quit in the Options menu.", "Instructions", 
+							JOptionPane.INFORMATION_MESSAGE);
+					break;
+			}
+			
+		}
+	}
+}
