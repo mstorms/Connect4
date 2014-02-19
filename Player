@@ -1,0 +1,102 @@
+
+/**
+ * Class for player properties
+ */
+public class Player {
+
+	private static String rName;
+	private static String bName;
+	private static int rScore;
+	private static int bScore;
+	private static String turn;
+	
+	/**
+	 * Return name of Red Player
+	 */
+	public static String getRName() {
+		return rName;
+	}
+	
+	/**
+	 * Set name of Red Player
+	 */
+	public static void setRName(String s) {
+		rName = s;
+	}
+	
+	/**
+	 * Return name of Blue Player
+	 */
+	public static String getBName() {
+		return bName;
+	}
+	
+	/**
+	 * Set name of Blue Player
+	 */
+	public static void setBName(String s) {
+		bName = s;
+	}
+	
+	/**
+	 * Return red score
+	 */
+	public static int getRScore() {
+		return rScore;
+	}
+	
+	/**
+	 * Return blue score
+	 */
+	public static int getBScore() {
+		return bScore;
+	}
+	
+	/**
+	 * Reset scores
+	 */
+	public static void resetScore() {
+		rScore = 0;
+		bScore = 0;
+	}
+	
+	/**
+	 * Increments red score
+	 */
+	public static void rWins() {
+		rScore++;
+	}
+	
+	/**
+	 * Increments blue score
+	 */
+	public static void bWins() {
+		bScore++;
+	}
+	
+	/**
+	 * Reset turn for tournament reset
+	 */
+	public static void resetTurn() {
+		turn = "r";
+	}
+	
+	/**
+	 * Returns the current turn
+	 */
+	public static String getTurn() {
+		return turn;
+	}
+	
+	/**
+	 * Toggles turns after move
+	 */
+	public static void nextTurn() {
+		if (getTurn().equals("r")) {
+			turn = "b";
+		}
+		else {
+			turn = "r";
+		}
+	}
+}
